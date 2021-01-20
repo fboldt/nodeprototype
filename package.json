@@ -1,0 +1,20 @@
+{
+  "name": "nodeprototype",
+  "version": "1.0.0",
+  "description": "Tests with nodejs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fboldt/nodeprototype.git"
+  },
+  "author": "Francisco de Assis Boldt <fboldt@gmail.com> (http://boldt.pro.br)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fboldt/nodeprototype/issues"
+  },
+  "homepage": "https://github.com/fboldt/nodeprototype#readme"
+}

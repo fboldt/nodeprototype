@@ -1,12 +1,19 @@
-const http = require('http');
-const port = process.env.PORT || 3000
+const express = require('express')
+const app = express()
+const port = 3000
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/html');
-  res.end('<h1>Hello NodeJS</h1>');
-});
+app.use(express.static('public'));
 
-server.listen(port,() => {
-  console.log(`Server running at port `+port);
-});
+const path = require('path')
+
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve('leafletjs.html'))
+})
+
+app.get('/pontos', (req, res) => {
+  res.sendFile(path.resolve('public/valesmall.json'));
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})

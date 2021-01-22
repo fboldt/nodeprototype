@@ -46,15 +46,30 @@
 
 		mymap.on('click', onMapClick);
 
-		L.circle({"lat":-20.242000, "lng": -40.2450000}, 1, { opacity: 0.1 }).addTo(mymap);
-
 		fetch('pontos')
             .then(response => response.json())
             .then(latLong => {
                 latLong.forEach(function(coord) {
 					L.circle(coord, 1, { opacity: 0.1 }).addTo(mymap);
 				});
-            });
+			});
+		
+		L.polygon([
+			[-20.242217, -40.245849],
+			[-20.243375, -40.245119],
+			[-20.241482, -40.243564],
+			[-20.240596, -40.243875],
+			[-20.241865, -40.244808],
+			[-20.241673, -40.245141]
+		]).addTo(mymap);
+		L.polygon([
+			[-20.242499, -40.245162],
+			[-20.24273, -40.244969],
+			[-20.24108, -40.244036],
+			[-20.241039, -40.244186]
+		],
+		{opacity: 0}
+		).addTo(mymap);
 	</script>
 
 </body>

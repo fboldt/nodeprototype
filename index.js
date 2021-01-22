@@ -14,6 +14,6 @@ app.get('/pontos', (req, res) => {
   res.sendFile(path.resolve('public/valesmall.json'));
 })
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

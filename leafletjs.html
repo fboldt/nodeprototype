@@ -20,11 +20,11 @@
 </head>
 
 <body>
-
+	<a href='/'>home</a><br>
 	<div id="mapid" style="width: 900px; height: 600px;"></div>
 	<script>
 
-		var mymap = L.map('mapid').setView([0,0], 18);
+		var mymap = L.map('mapid').setView([0, 0], 18);
 
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 			maxZoom: 19,
@@ -47,8 +47,8 @@
 		mymap.on('click', onMapClick);
 
 		fetch('2020-12-30_0.json')
-            .then(response => response.json())
-            .then(points => {
+			.then(response => response.json())
+			.then(points => {
 				totalCount = 0;
 				maxCount = 0;
 				mostImportant = {};
@@ -61,27 +61,27 @@
 				});
 				mymap.setView([mostImportant.lat, mostImportant.lng]);
 				points.forEach((point) => {
-					if ( maxCount == 1 ) {
+					if (maxCount == 1) {
 						importance = 0.3;
 					} else {
-						importance = point.count/maxCount;
+						importance = point.count / maxCount;
 					}
 					color = getColor(importance);
-					opacity = 0.7; 
-					radius = 6*(importance);
-					if (radius<1) { radius = 1; }
-					L.circle([point.lat, point.lng], { radius: radius, color: color, fillOpacity: opacity, opacity: 0}).addTo(mymap);
+					opacity = 0.7;
+					radius = 6 * (importance);
+					if (radius < 1) { radius = 1; }
+					L.circle([point.lat, point.lng], { radius: radius, color: color, fillOpacity: opacity, opacity: 0 }).addTo(mymap);
 				});
 			});
 		function getColor(i) {
-			return  i > 0.8 ? '#800026' :
-					i > 0.7 ? '#BD0026' :
+			return i > 0.8 ? '#800026' :
+				i > 0.7 ? '#BD0026' :
 					i > 0.6 ? '#E31A1C' :
-					i > 0.5 ? '#FC4E2A' :
-					i > 0.4 ? '#FD8D3C' :
-					i > 0.3 ? '#FEB24C' :
-					i > 0.2 ? '#FED976' :
-							'#FEEDA0';
+						i > 0.5 ? '#FC4E2A' :
+							i > 0.4 ? '#FD8D3C' :
+								i > 0.3 ? '#FEB24C' :
+									i > 0.2 ? '#FED976' :
+										'#FEEDA0';
 		}
 	</script>
 

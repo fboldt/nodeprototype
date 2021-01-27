@@ -24,7 +24,7 @@
 	<div id="mapid" style="width: 900px; height: 600px;"></div>
 	<script>
 
-		var mymap = L.map('mapid').setView([-20.24189, -40.24500], 17);
+		var mymap = L.map('mapid').setView([0,0], 18);
 
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 			maxZoom: 19,
@@ -46,30 +46,43 @@
 
 		mymap.on('click', onMapClick);
 
-		fetch('pontos')
+		fetch('2020-12-30_0.json')
             .then(response => response.json())
-            .then(latLong => {
-                latLong.forEach(function(coord) {
-					L.circle(coord, 1, { opacity: 0.1 }).addTo(mymap);
+            .then(points => {
+				totalCount = 0;
+				maxCount = 0;
+				mostImportant = {};
+				points.forEach((point) => {
+					totalCount += point.count;
+					if (point.count > maxCount) {
+						maxCount = point.count;
+						mostImportant = point;
+					}
+				});
+				mymap.setView([mostImportant.lat, mostImportant.lng]);
+				points.forEach((point) => {
+					if ( maxCount == 1 ) {
+						importance = 0.3;
+					} else {
+						importance = point.count/maxCount;
+					}
+					color = getColor(importance);
+					opacity = 0.7; 
+					radius = 6*(importance);
+					if (radius<1) { radius = 1; }
+					L.circle([point.lat, point.lng], { radius: radius, color: color, fillOpacity: opacity, opacity: 0}).addTo(mymap);
 				});
 			});
-		
-		L.polygon([
-			[-20.242217, -40.245849],
-			[-20.243375, -40.245119],
-			[-20.241482, -40.243564],
-			[-20.240596, -40.243875],
-			[-20.241865, -40.244808],
-			[-20.241673, -40.245141]
-		]).addTo(mymap);
-		L.polygon([
-			[-20.242499, -40.245162],
-			[-20.24273, -40.244969],
-			[-20.24108, -40.244036],
-			[-20.241039, -40.244186]
-		],
-		{opacity: 0}
-		).addTo(mymap);
+		function getColor(i) {
+			return  i > 0.8 ? '#800026' :
+					i > 0.7 ? '#BD0026' :
+					i > 0.6 ? '#E31A1C' :
+					i > 0.5 ? '#FC4E2A' :
+					i > 0.4 ? '#FD8D3C' :
+					i > 0.3 ? '#FEB24C' :
+					i > 0.2 ? '#FED976' :
+							'#FEEDA0';
+		}
 	</script>
 
 </body>

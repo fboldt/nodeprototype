@@ -20,7 +20,10 @@
 </head>
 
 <body>
-	<a href='/'>home</a><br>
+	<form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
+		<input type="file" name="sampleFile" />
+		<input type='submit' value='Update!' />
+	</form>
 	<div id="mapid" style="width: 900px; height: 600px;"></div>
 	<script>
 
@@ -46,7 +49,7 @@
 
 		mymap.on('click', onMapClick);
 
-		fetch('2020-12-30_0.json')
+		fetch('clusters.json')
 			.then(response => response.json())
 			.then(points => {
 				totalCount = 0;
@@ -75,13 +78,13 @@
 			});
 		function getColor(i) {
 			return i > 0.8 ? '#800026' :
-				i > 0.7 ? '#BD0026' :
+					i > 0.7 ? '#BD0026' :
 					i > 0.6 ? '#E31A1C' :
-						i > 0.5 ? '#FC4E2A' :
-							i > 0.4 ? '#FD8D3C' :
-								i > 0.3 ? '#FEB24C' :
-									i > 0.2 ? '#FED976' :
-										'#FEEDA0';
+					i > 0.5 ? '#FC4E2A' :
+					i > 0.4 ? '#FD8D3C' :
+					i > 0.3 ? '#FEB24C' :
+					i > 0.2 ? '#FED976' :
+							'#FEEDA0';
 		}
 	</script>
 

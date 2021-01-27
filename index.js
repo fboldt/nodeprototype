@@ -1,23 +1,20 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const fs = require('fs');
+const path = require('path')
 const makeclusters = require('./makeclusters.js');
+
 const app = express();
 const port = 3000;
 
 app.use(express.static('public'));
 app.use(fileUpload());
 
-const path = require('path')
-
 app.get('/', (req, res) => {
-  res.send(`
-<form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
-  <input type="file" name="sampleFile" />
-  <input type='submit' value='Upload!' />
-</form>`);
+  res.redirect('/mapa');
 })
 
-app.post('/upload', function(req, res) {
+app.post('/upload', function (req, res) {
   let sampleFile;
   let uploadPath;
 
@@ -30,16 +27,16 @@ app.post('/upload', function(req, res) {
   uploadPath = __dirname + '/datasets/' + sampleFile.name;
 
   // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv(uploadPath, function(err) {
+  sampleFile.mv(uploadPath, function (err) {
     if (err)
       return res.status(500).send(err);
-
     makeclusters(uploadPath);
-    res.send('File uploaded! <a href="/mapa">mapa</a>');
   });
+  // res.send('File uploaded! <a href="/mapa">mapa</a>');
+  res.redirect('/mapa');
 });
 
-app.get("/mapa", (req,res) => {
+app.get("/mapa", (req, res) => {
   res.sendFile(path.resolve('leafletjs.html'));
 });
 

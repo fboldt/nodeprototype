@@ -23,7 +23,21 @@
 	<form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
 		<input type="file" name="sampleFile" />
 		<input type='submit' value='Update!' />
+		<div>
+			<p>Clusters: <span id="clustersNumber"></span>
+			<input type="range" min="10" max="1000" value="100" class="slider" id="clustersRange" name="nclusters">
+			</p>
+		</div>
 	</form>
+	<script>
+		var slider = document.getElementById("clustersRange");
+		var output = document.getElementById("clustersNumber");
+		output.innerHTML = slider.value;
+		
+		slider.oninput = function() {
+		  output.innerHTML = this.value;
+		}
+		</script>
 	<div id="mapid" style="width: 900px; height: 600px;"></div>
 	<script>
 

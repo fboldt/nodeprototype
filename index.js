@@ -1,3 +1,4 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
@@ -9,6 +10,8 @@ const port = 3000;
 
 app.use(express.static('public'));
 app.use(fileUpload());
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.get('/', (req, res) => {
   res.redirect('/mapa');
@@ -30,7 +33,8 @@ app.post('/upload', function (req, res) {
   sampleFile.mv(uploadPath, function (err) {
     if (err)
       return res.status(500).send(err);
-    makeclusters(uploadPath);
+    nclusters = parseInt(req.body.nclusters);
+    makeclusters(uploadPath, nclusters);
   });
   // res.send('File uploaded! <a href="/mapa">mapa</a>');
   res.redirect('/mapa');

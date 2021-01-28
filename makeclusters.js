@@ -2,24 +2,24 @@ const fs = require('fs');
 const neatCsv = require('neat-csv');
 const skmeans = require("skmeans");
 
-module.exports = async (csvfilename) => {
+module.exports = async (csvfilename, nclusters) => {
     fs.readFile(csvfilename, async (err, data) => {
         if (err) {
             console.error(err);
             return;
         }
-        let jsonarray = await makeclusters(await neatCsv(data));
+        let jsonarray = await makeclusters(await neatCsv(data), nclusters);
         return jsonarray;
     });
 };
 
-async function makeclusters(rawdata) {
+async function makeclusters(rawdata, nclusters) {
     let points = [];
     rawdata.forEach(sample => {
         point = [parseFloat(sample["metadata.lng"]), parseFloat(sample["metadata.lat"])];
         points.push(point);
     });
-    let n_clusters = 100;
+    let n_clusters = nclusters;
     if (points.length < n_clusters) { n_clusters = points.length; }
     let kmeansModel = skmeans(points, n_clusters);
     let counts = new Array(n_clusters).fill(0);
